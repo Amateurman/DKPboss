@@ -32,15 +32,15 @@ public class Main {
             // This should REALLY be validated
             logger.log("Enter username");
             String userName = request.getParameter("userName");
+            String passWord;
+            String query;
             try{
                 logger.log("Enter password");
-                String passWord = request.getParameter("passWord");
+                passWord = request.getParameter("passWord");
                 try {
                     Codec ORACLE_CODEC = new OracleCodec();
-                    String query = "SELECT user_id FROM user_data WHERE user_name = '"
-                    + ESAPI.encoder().encodeForSQL( ORACLE_CODEC, req.getParameter("userName"))
-                    + "' and user_password = '"
-                    + ESAPI.encoder().encodeForSQL( ORACLE_CODEC, req.getParameter("passWord")) +"'";
+                    query = "SELECT user_id FROM user_data WHERE user_name = '" + ESAPI.encoder().encodeForSQL( ORACLE_CODEC, req.getParameter("userName")) + "' and user_password = '" + ESAPI.encoder().encodeForSQL( ORACLE_CODEC, req.getParameter("passWord")) +"'";
+                    
                     PreparedStatement pstmt= c.createStatement();
                     pstmt.setString(1, userName);
 
