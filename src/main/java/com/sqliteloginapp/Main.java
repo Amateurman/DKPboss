@@ -38,8 +38,8 @@ public class Main {
                 logger.log("Enter password");
                 passWord = request.getParameter("passWord");
                 try {
-                    Codec ORACLE_CODEC = new OracleCodec();
-                    query = "SELECT user_id FROM user_data WHERE user_name = '" + ESAPI.encoder().encodeForSQL( ORACLE_CODEC, req.getParameter("userName")) + "' and user_password = '" + ESAPI.encoder().encodeForSQL( ORACLE_CODEC, req.getParameter("passWord")) +"'";
+                    Codec oracleCodec = new OracleCodec();
+                    query = "SELECT user_id FROM user_data WHERE user_name = '" + ESAPI.encoder().encodeForSQL( oracleCodec, req.getParameter("userName")) + "' and user_password = '" + ESAPI.encoder().encodeForSQL( oracleCodec, req.getParameter("passWord")) +"'";
                     
                     PreparedStatement pstmt= c.createStatement();
                     pstmt.setString(1, userName);
