@@ -5,6 +5,7 @@
  */
 package com.sqliteloginapp;
 
+import java.lang.System.Logger;
 /**
  *
  * @author herma
@@ -12,6 +13,7 @@ package com.sqliteloginapp;
 import java.sql.*;
 import java.util.Scanner;
 import java.util.Base64.Encoder;
+import java.io.IOException;
 
 import javax.crypto.ExemptionMechanismSpi;
 import org.owasp.esapi.Encoder;
@@ -28,10 +30,10 @@ public class Main {
             c = DriverManager.getConnection("jdbc:sqlite:accounts.db");
             c.setAutoCommit(false);
             // This should REALLY be validated
-            System.out.println("Enter username");
+            logger.log("Enter username");
             String userName = request.getParameter("userName");
             try{
-                System.out.println("Enter password");
+                logger.log("Enter password");
                 String passWord = request.getParameter("passWord");
                 try {
                     Codec ORACLE_CODEC = new OracleCodec();
@@ -39,21 +41,20 @@ public class Main {
                     + ESAPI.encoder().encodeForSQL( ORACLE_CODEC, req.getParameter("userName"))
                     + "' and user_password = '"
                     + ESAPI.encoder().encodeForSQL( ORACLE_CODEC, req.getParameter("passWord")) +"'";
-                    //String query = "select * from user where username='" + userName + "' and password='" + passWord + "'";
                     PreparedStatement pstmt= c.createStatement();
                     pstmt.setString(1, userName);
 
                     ResultSet res = pstmt.executeQuery();
                     if(res.next()){
-                        System.out.println("Success login, welcome "+ userName);
+                        logger.log("Success login, welcome "+ userName);
                     } else {
-                        System.out.println("Failed login");
+                        logger.log("Failed login");
                     }
                 } catch (SQLException e) {
-                    System.out.println("Failed login");
+                    logger.log("Your Password like SQL Inject");
                 }
             } catch (SQLException se) {
-                System.out.println("Failed login");
+                logger.log("Your Username like SQL Inject");
             }      
 
             
